@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#93c5fd" />
+  <title>WorkBuddy 个人工作台</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="工作台" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="shell">
+    <!-- ===== 左侧分组侧边栏 ===== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-avatar" data-go="home">🐤</div>
+      <div class="side-section">成长 · 学习</div>
+      <button class="side-item active" data-go="home"><span class="si-icon">🏠</span><label>首页</label></button>
+      <button class="side-item" data-go="study"><span class="si-icon">📚</span><label>学习管理</label></button>
+      <button class="side-item" data-go="words"><span class="si-icon">🔤</span><label>单词本</label></button>
+      <button class="side-item" data-go="speak"><span class="si-icon">🎙️</span><label>表达能力</label></button>
+      <div class="side-section">生活 · 记录</div>
+      <button class="side-item" data-go="news"><span class="si-icon">📰</span><label>每日热点</label></button>
+      <button class="side-item" data-go="style"><span class="si-icon">💄</span><label>妆容穿搭</label></button>
+      <button class="side-item" data-go="sport"><span class="si-icon">🏃</span><label>运动管理</label></button>
+      <button class="side-item" data-go="money"><span class="si-icon">💰</span><label>记账</label></button>
+      <div class="side-section">复盘 · 系统</div>
+      <button class="side-item" data-go="review"><span class="si-icon">📝</span><label>工作复盘</label></button>
+      <button class="side-item" data-go="settings"><span class="si-icon">⚙️</span><label>设置</label></button>
+      <div class="side-spacer"></div>
+      <button class="side-theme" id="themeBtn" title="切换深色/浅色">🌙</button>
+    </aside>
+
+    <!-- ===== 主内容区 ===== -->
+    <main class="content" id="content">
+
+      <!-- ========== 首页 ========== -->
+      <section class="page active" data-page="home">
+        <div class="page-head">
+          <div class="ph-title">首页</div>
+          <div class="ph-sub">蹦蹦 & 跳跳陪你每一天</div>
+        </div>
+
+        <!-- 大时钟卡片 -->
+        <div class="card clock-card">
+          <div class="clock-pets"><span>🐤</span><span>🐣</span><span>🐱</span></div>
+          <div class="clock-time" id="clockTime">12:18:26</div>
+          <div class="clock-date" id="clockDate"></div>
+          <div class="clock-quote" id="clockQuote">慢慢来，比较快</div>
+          <div class="clock-quote-en" id="clockQuoteEn">Slow is smooth, smooth is fast.</div>
+        </div>
+
+        <!-- 今日打卡 -->
+        <div class="card">
+          <div class="card-title">⏰ 今日打卡</div>
+          <div class="habit-grid" id="habitGrid"></div>
+          <div class="streak-line" id="streakLine"></div>
+          <div class="week-dots" id="weekDots"></div>
+        </div>
+
+        <!-- 今日一览 -->
+        <div class="card">
+          <div class="card-title">📊 今日一览</div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-num" id="statTodo">0/0</div><div class="stat-label">待办完成</div></div>
+            <div class="stat-cell"><div class="stat-num" id="statBills">0</div><div class="stat-label">记账笔数</div></div>
+            <div class="stat-cell"><div class="stat-num" id="statWords">0</div><div class="stat-label">单词进度</div></div>
+            <div class="stat-cell"><div class="stat-num" id="statFocus">0</div><div class="stat-label">专注分钟</div></div>
+          </div>
+        </div>
+
+        <!-- 功能宫格 -->
+        <div class="bento-grid">
+          <button class="bento c-blue"   data-go="study"><span class="b-icon">📅</span><b>每日计划</b><small>番茄钟 · 待办清单</small></button>
+          <button class="bento c-orange" data-go="sport"><span class="b-icon">💪</span><b>运动管理</b><small>体重 · 运动打卡</small></button>
+          <button class="bento c-green"  data-go="words"><span class="b-icon">📖</span><b>单词背诵</b><small>每日 30 词 · 复习</small></button>
+          <button class="bento c-purple" data-go="review"><span class="b-icon">🎓</span><b>工作复盘</b><small>模板 · 历史记录</small></button>
+          <button class="bento c-pink"   data-go="speak"><span class="b-icon">🎙️</span><b>表达能力</b><small>晨读跟读 · 口语</small></button>
+          <button class="bento c-cyan"   data-go="speak"><span class="b-icon">🗣️</span><b>朗读跟读</b><small>英文短文 · 打分</small></button>
+          <button class="bento c-yellow" data-go="style"><span class="b-icon">📚</span><b>读书/积累</b><small>每日金句</small></button>
+          <button class="bento c-rose"   data-go="style"><span class="b-icon">💄</span><b>妆容穿搭</b><small>教程 · 季节穿搭</small></button>
+          <button class="bento c-mint"   data-go="news"><span class="b-icon">📰</span><b>新闻资讯</b><small>时政 · 科技 · 心理</small></button>
+          <button class="bento c-pink2"  data-go="money"><span class="b-icon">📊</span><b>记账统计</b><small>周报 · 月报图表</small></button>
+          <button class="bento c-blue2"  data-go="settings"><span class="b-icon">🤖</span><b>AI 设置</b><small>豆包 · 数据备份</small></button>
+          <button class="bento c-check"  id="bentoCheckin"><span class="b-icon">✅</span><b>今日签到</b><small id="bentoCheckinSub">点一下开启今天</small></button>
+        </div>
+      </section>
+
+      <!-- ========== 学习管理 ========== -->
+      <section class="page" data-page="study">
+        <div class="page-head">
+          <div class="ph-title">学习管理</div>
+          <div class="ph-sub">番茄钟专注 · 每日任务 · 完成总结</div>
+        </div>
+
+        <div class="stat-grid two">
+          <div class="stat-cell big"><div class="stat-num" id="studyDays">0</div><div class="stat-label">累计专注天数</div></div>
+          <div class="stat-cell big"><div class="stat-num" id="studyFocus">0</div><div class="stat-label">累计专注分钟</div></div>
+        </div>
+
+        <div class="card pomodoro">
+          <div class="pomo-mode" id="pomoMode">专注 25 分钟</div>
+          <div class="pomo-time" id="pomoTime">25:00</div>
+          <div class="pomo-controls">
+            <button class="btn btn-primary" id="pomoStart">开始</button>
+            <button class="btn btn-ghost" id="pomoReset">重置</button>
+            <select id="pomoLen" class="select-mini">
+              <option value="25">25 分钟</option>
+              <option value="15">15 分钟</option>
+              <option value="45">45 分钟</option>
+              <option value="5">5 分钟</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card-title row-between">
+          <span>📝 今日学习任务</span>
+          <button class="btn-tiny" id="addTaskBtn">＋ 添加</button>
+        </div>
+        <div class="card" id="taskList"></div>
+
+        <div class="card">
+          <div class="card-title">🎯 今日学习总结</div>
+          <div class="summary-row done"><b>✅ 已完成</b><span id="sumDone">0 项</span></div>
+          <div class="summary-row undone"><b>⏳ 未完成</b><span id="sumUndone">0 项</span></div>
+          <div class="summary-note" id="sumNote"></div>
+        </div>
+      </section>
+
+      <!-- ========== 单词本 ========== -->
+      <section class="page" data-page="words">
+        <div class="page-head">
+          <div class="ph-title">单词本</div>
+          <div class="ph-sub">每日 30 词 · 智能复习 · 点击卡片翻面</div>
+        </div>
+
+        <div class="stat-grid two">
+          <div class="stat-cell big"><div class="stat-num" id="wordTotalDays">0</div><div class="stat-label">累计学习天数</div></div>
+          <div class="stat-cell big"><div class="stat-num" id="wordTotal">0</div><div class="stat-label">累计收藏单词</div></div>
+        </div>
+
+        <div class="card">
+          <div class="row-between"><span class="card-title" style="margin:0">今日学习进度</span><b id="wordPct">0%</b></div>
+          <div class="progress"><div class="progress-bar" id="wordProgressBar"></div></div>
+          <div class="progress-note" id="wordProgressNote">新词 0/30 · 复习队列 0</div>
+        </div>
+
+        <div class="chips-row">
+          <button class="chip active" data-wtab="wday">🆕 今日新词</button>
+          <button class="chip" data-wtab="wbook">📕 我的单词本 <span class="badge" id="wordBookCount"></span></button>
+          <button class="chip" id="addWordBtn">✍️ 手动添加</button>
+        </div>
+
+        <div class="w-pane active" data-wpane="wday">
+          <div id="wordCardWrap"></div>
+          <div class="word-actions" id="wordActions">
+            <button class="btn btn-review" id="wordReviewBtn">🔁 复习（明日再推）</button>
+            <button class="btn btn-primary" id="wordKnownBtn">✓ 已记住</button>
+          </div>
+        </div>
+        <div class="w-pane" data-wpane="wbook">
+          <div id="wordBookList"></div>
+        </div>
+      </section>
+
+      <!-- ========== 表达能力 ========== -->
+      <section class="page" data-page="speak">
+        <div class="page-head">
+          <div class="ph-title">表达能力</div>
+          <div class="ph-sub">英文晨读 · 跟读打分 · 每日金句</div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini c-blue"><span>📝</span><b>今日新词</b><small id="speakWords">…</small></div>
+          <div class="mini c-pink"><span>🔊</span><b>朗读跟读</b><small>点句即读 · 打分</small></div>
+          <div class="mini c-green"><span>📰</span><b>每日短文</b><small>故事/时事/演讲</small></div>
+          <div class="mini c-orange"><span>🎯</span><b>口语练习</b><small>每日 4 句</small></div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="en">📖 英文晨读</button>
+          <button class="tab" data-tab="speak">🗣️ 口语练习</button>
+          <button class="tab" data-tab="zh">💛 每日金句</button>
+        </div>
+
+        <div class="tab-pane active" data-pane="en">
+          <div class="card" id="enArticle"><div class="loading-skeleton"></div></div>
+        </div>
+        <div class="tab-pane" data-pane="speak">
+          <div class="card-title">💬 口语练习句</div>
+          <div id="speakList"></div>
+        </div>
+        <div class="tab-pane" data-pane="zh">
+          <div class="card quote-card" id="zhQuote"><div class="loading-skeleton"></div></div>
+        </div>
+      </section>
+
+      <!-- ========== 每日热点 ========== -->
+      <section class="page" data-page="news">
+        <div class="page-head">
+          <div class="ph-title">每日热点</div>
+          <div class="ph-sub">国家 · 机器人具身 · 心理成长，每日更新</div>
+        </div>
+        <div class="news-cat" id="newsCat">
+          <button class="chip active" data-cat="national">🏛️ 时政要闻</button>
+          <button class="chip" data-cat="robot">🤖 机器人/具身</button>
+          <button class="chip" data-cat="psych">🧠 心理成长</button>
+        </div>
+        <div id="newsList"></div>
+      </section>
+
+      <!-- ========== 妆容穿搭 ========== -->
+      <section class="page" data-page="style">
+        <div class="page-head">
+          <div class="ph-title">妆容穿搭</div>
+          <div class="ph-sub">每日妆容 · 季节穿搭 · 每日更新</div>
+        </div>
+        <div class="seg big">
+          <button class="seg-btn active" data-style="makeup">💄 妆容教程</button>
+          <button class="seg-btn" data-style="outfit">👗 穿搭推荐</button>
+        </div>
+        <div id="styleCard"></div>
+      </section>
+
+      <!-- ========== 运动管理 ========== -->
+      <section class="page" data-page="sport">
+        <div class="page-head">
+          <div class="ph-title">运动管理</div>
+          <div class="ph-sub">体重曲线 · 每日运动任务</div>
+        </div>
+        <div class="card">
+          <div class="card-title row-between"><span>⚖️ 体重记录</span><button class="btn-tiny" id="addWeightBtn">＋ 记录</button></div>
+          <div class="weight-now">
+            <div><span class="weight-num" id="weightLatest">--</span><span class="weight-unit">kg</span></div>
+            <div class="weight-delta" id="weightDelta"></div>
+          </div>
+          <canvas id="weightChart" height="140"></canvas>
+          <div class="hint">💡 小米体脂秤数据可在「米家 App → 体重曲线」看一眼后手动录入。</div>
+        </div>
+        <div class="card-title row-between"><span>🏃 每日运动任务</span><button class="btn-tiny" id="addSportBtn">＋ 添加</button></div>
+        <div class="card" id="sportList"></div>
+      </section>
+
+      <!-- ========== 记账 ========== -->
+      <section class="page" data-page="money">
+        <div class="page-head">
+          <div class="ph-title">记账</div>
+          <div class="ph-sub" id="moneyDateSub">每一笔都算数</div>
+        </div>
+
+        <!-- 本月概览 -->
+        <div class="card">
+          <div class="card-title">📊 本月概览</div>
+          <div class="stat-grid three">
+            <div class="stat-cell"><div class="stat-num green" id="ovIncome">¥0</div><div class="stat-label">收入</div></div>
+            <div class="stat-cell"><div class="stat-num red" id="ovExpense">¥0</div><div class="stat-label">支出</div></div>
+            <div class="stat-cell"><div class="stat-num" id="ovBills">0</div><div class="stat-label">笔数</div></div>
+          </div>
+        </div>
+
+        <!-- 截图识别导入 -->
+        <div class="card import-card">
+          <div class="card-title">📷 账单截图识别（支付宝/微信/美团）</div>
+          <div class="import-btns">
+            <button class="btn btn-primary" id="scanBillBtn">📷 选择截图识别</button>
+            <input type="file" id="billFile" accept="image/*" hidden />
+          </div>
+          <div class="hint">上传账单截图，豆包视觉 AI 自动识别每笔金额/分类/商户，预览确认后批量导入。识别结果按分类小计，可逐条勾选。</div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="madd">✍️ 记一笔</button>
+          <button class="tab" data-tab="mlist">🧾 明细</button>
+          <button class="tab" data-tab="mreport">📈 周报/月报</button>
+        </div>
+
+        <div class="tab-pane active" data-pane="madd">
+          <div class="card">
+            <div class="seg">
+              <button class="seg-btn active" data-type="expense">💸 支出</button>
+              <button class="seg-btn" data-type="income">💰 收入</button>
+            </div>
+            <div class="cat-picker" id="catPicker"></div>
+            <div class="field"><label>金额</label><input id="billAmount" type="number" inputmode="decimal" placeholder="0.00" /></div>
+            <div class="field"><label>备注</label><input id="billNote" placeholder="如：午餐 / 工资" /></div>
+            <button class="btn btn-primary btn-block" id="saveBillBtn">记一笔</button>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="mlist">
+          <div class="card" id="billList"></div>
+        </div>
+
+        <div class="tab-pane" data-pane="mreport">
+          <div class="card">
+            <div class="card-title">本周支出（按分类）</div>
+            <canvas id="weekChart" height="160"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title">近 30 天每日支出</div>
+            <canvas id="monthChart" height="160"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 工作复盘 ========== -->
+      <section class="page" data-page="review">
+        <div class="page-head">
+          <div class="ph-title">工作复盘</div>
+          <div class="ph-sub">今日要事 · 成败归因 · 明日铁三角</div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="rtoday">✍️ 今日复盘</button>
+          <button class="tab" data-tab="rhistory">🗂️ 历史记录</button>
+        </div>
+
+        <div class="tab-pane active" data-pane="rtoday">
+          <div class="card review-card">
+            <div class="review-group">
+              <div class="review-group-title">📌 今日要事</div>
+              <div class="field"><label>核心任务完成度（%）</label><input id="rvProgress" type="number" min="0" max="100" placeholder="如 80" /></div>
+              <div class="field"><label>今日最大干扰源</label><input id="rvDistract" placeholder="如：短视频 / 临时会议" /></div>
+            </div>
+            <div class="review-group">
+              <div class="review-group-title">🔍 成败归因</div>
+              <div class="field"><label>做得好（Keep）</label><textarea id="rvKeep" rows="2"></textarea></div>
+              <div class="field"><label>需改进（Improve）</label><textarea id="rvImprove" rows="2"></textarea></div>
+              <div class="field"><label>根本原因</label><textarea id="rvRoot" rows="2"></textarea></div>
+            </div>
+            <div class="review-group">
+              <div class="review-group-title">💡 一句话洞见</div>
+              <div class="field"><label>今天学到/悟到的一个道理</label><textarea id="rvInsight" rows="2"></textarea></div>
+            </div>
+            <div class="review-group">
+              <div class="review-group-title">😊 今日情绪标签</div>
+              <div class="emoji-picker" id="emojiPicker">
+                <button data-emoji="😌 平静">😌</button>
+                <button data-emoji="🔥 兴奋">🔥</button>
+                <button data-emoji="😰 焦虑">😰</button>
+                <button data-emoji="😔 低落">😔</button>
+                <button data-emoji="😤 烦躁">😤</button>
+                <button data-emoji="🥰 愉悦">🥰</button>
+              </div>
+              <div class="field"><label>情绪，因为……</label><input id="rvMoodReason" placeholder="因为……" /></div>
+            </div>
+            <div class="review-group">
+              <div class="review-group-title">🔺 明日铁三角</div>
+              <div class="field"><label>1 件大事</label><input id="rvBig" placeholder="明天最重要的一件事" /></div>
+              <div class="field"><label>1 个优化（改正今天的错误）</label><input id="rvFix" /></div>
+              <div class="field"><label>1 个微习惯（明早立刻做）</label><input id="rvHabit" placeholder="如：起床先喝一杯水" /></div>
+            </div>
+            <button class="btn btn-primary btn-block" id="saveReviewBtn">保存今日复盘</button>
+            <button class="btn btn-ghost btn-block" id="aiReviewBtn">🤖 AI 帮我润色/点评</button>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="rhistory">
+          <div id="reviewHistory"></div>
+        </div>
+      </section>
+
+      <!-- ========== 设置 ========== -->
+      <section class="page" data-page="settings">
+        <div class="page-head">
+          <div class="ph-title">设置</div>
+          <div class="ph-sub">AI 配置 · 数据管理 · 安装指南</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🤖 火山方舟（豆包）AI 配置</div>
+          <div class="field">
+            <label>API Key（方舟控制台 → API Key 管理）</label>
+            <input id="cfgApiKey" type="password" placeholder="粘贴你的 API Key" />
+          </div>
+          <div class="field">
+            <label>文本模型 ID（短文/单词/热点用）</label>
+            <input id="cfgModel" placeholder="doubao-seed-1-6-flash-250715" />
+          </div>
+          <div class="field">
+            <label>视觉模型 ID（账单截图识别用，需支持图片）</label>
+            <input id="cfgVisionModel" placeholder="doubao-seed-1-6-250615" />
+          </div>
+          <button class="btn btn-primary btn-block" id="saveCfgBtn">保存并测试连接</button>
+          <div class="hint" id="cfgHint">Key 仅保存在本手机浏览器，直连火山方舟，不上传第三方。</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📥 数据管理</div>
+          <button class="btn btn-ghost btn-block" id="exportBtn">导出全部数据（JSON 备份）</button>
+          <button class="btn btn-ghost btn-block" id="importBtn">导入备份</button>
+          <input type="file" id="importFile" accept="application/json" hidden />
+          <button class="btn btn-danger-ghost btn-block" id="clearCacheBtn">清除今日 AI 缓存（重新生成）</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📱 安装到小米15 桌面</div>
+          <div class="hint">
+            用 <b>小米浏览器 / Chrome</b> 打开本应用 → 菜单（⋮）→ <b>「添加到桌面」/「安装应用」</b>，即可全屏使用、离线打开。<br/>
+            建议部署到火山引擎静态网站 / GitHub Pages（https）体验最佳。
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 顶部刷新（悬浮） -->
+  <button class="fab-refresh" id="refreshBtn" title="刷新今日内容">⟳</button>
+
+  <!-- 通用弹窗 -->
+  <div class="modal-mask" id="modalMask">
+    <div class="modal" id="modalBox">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-actions" id="modalActions">
+        <button class="btn btn-ghost" id="modalCancel">取消</button>
+        <button class="btn btn-primary" id="modalOk">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
