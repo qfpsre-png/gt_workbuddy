@@ -27,16 +27,32 @@ const AI = (() => {
       temperature,
     };
     if (json) body.response_format = { type: "json_object" };
-    const res = await fetch(endpoint(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(`API 错误 ${res.status}：${txt.slice(0, 200)}`);
+
+    const doCall = async (b) => {
+      const res = await fetch(endpoint(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify(b),
+      });
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        const err = new Error(`API 错误 ${res.status}：${txt.slice(0, 200)}`);
+        err.status = res.status;
+        throw err;
+      }
+      return res.json();
+    };
+
+    let data;
+    try {
+      data = await doCall(body);
+    } catch (e) {
+      // 部分第三方兼容接口（如智谱部分模型）不支持 response_format，去掉后重试一次
+      if (json && e.status === 400) {
+        delete body.response_format;
+        data = await doCall(body);
+      } else throw e;
     }
-    const data = await res.json();
     return data.choices?.[0]?.message?.content || "";
   }
 
@@ -154,16 +170,31 @@ const AI = (() => {
         ],
       }],
     };
-    const res = await fetch(endpoint(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(`视觉识别失败（${res.status}）：请确认在方舟控制台开通了视觉模型「${body.model}」，或在设置中更换模型 ID。${txt.slice(0, 120)}`);
+    const doCall = async (b) => {
+      const res = await fetch(endpoint(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify(b),
+      });
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        const err = new Error(`视觉识别失败（${res.status}）：请确认已开通支持图片的视觉模型「${b.model}」，或在设置中更换模型 ID。${txt.slice(0, 150)}`);
+        err.status = res.status;
+        throw err;
+      }
+      return res.json();
+    };
+
+    let data;
+    try {
+      data = await doCall(body);
+    } catch (e) {
+      // 接口/模型不支持 response_format 时，去掉该参数重试一次
+      if (e.status === 400) {
+        delete body.response_format;
+        data = await doCall(body);
+      } else throw e;
     }
-    const data = await res.json();
     const raw = data.choices?.[0]?.message?.content || "{}";
     let parsed;
     try { parsed = JSON.parse(raw); }
