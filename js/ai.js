@@ -1,10 +1,18 @@
 /* ============ WorkBuddy AI 层：火山方舟（豆包）API 封装 ============
  * 文档：https://www.volcengine.com/docs/82379 （方舟 Chat Completions，OpenAI 兼容）
- * Endpoint：https://ark.cn-beijing.volces.com/api/v3/chat/completions
+ * Endpoint（可在设置中切换）：
+ *   标准方舟：https://ark.cn-beijing.volces.com/api/v3
+ *   Code Plan 套餐：https://ark.cn-beijing.volces.com/api/coding/v3
  * Key 仅存于本机 localStorage。
  */
 const AI = (() => {
-  const ENDPOINT = "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
+  const DEFAULT_BASE = "https://ark.cn-beijing.volces.com/api/coding/v3";
+  /** 根据设置拼出 chat/completions 地址（容忍用户多填/少填尾部斜杠） */
+  const endpoint = () => {
+    let base = (cfg().baseUrl || DEFAULT_BASE).trim().replace(/\/+$/, "");
+    if (/\/chat\/completions$/.test(base)) return base;
+    return base + "/chat/completions";
+  };
 
   const cfg = () => Store.getSettings();
   const ready = () => !!cfg().apiKey;
@@ -19,7 +27,7 @@ const AI = (() => {
       temperature,
     };
     if (json) body.response_format = { type: "json_object" };
-    const res = await fetch(ENDPOINT, {
+    const res = await fetch(endpoint(), {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify(body),
@@ -146,7 +154,7 @@ const AI = (() => {
         ],
       }],
     };
-    const res = await fetch(ENDPOINT, {
+    const res = await fetch(endpoint(), {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify(body),

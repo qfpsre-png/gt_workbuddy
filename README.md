@@ -33,6 +33,7 @@ python3 -m http.server 8899
    - **文本模型**（短文/单词/热点用）：推荐便宜快的 `doubao-seed-1-6-flash` 系列，模型 ID 形如 `doubao-seed-1-6-flash-250715`；
    - **视觉模型**（账单截图识别用，需支持图片）：如 `doubao-seed-1-6-250615`；
 4. 打开 App → **设置** → 粘贴 API Key 与两个模型 ID → **保存并测试连接**；
+   - **API 地址（Base URL）**：默认已填 Code Plan（coding 套餐）地址 `https://ark.cn-beijing.volces.com/api/coding/v3`；若你用的是普通按量付费 Key，请改为 `https://ark.cn-beijing.volces.com/api/v3`；
 5. 看到「🎉 豆包 AI 连接成功」即可。此后每天首次打开，英文短文、中文金句、30 个单词、三类热点、妆容穿搭会**自动生成并缓存**，当天重复查看不重复消耗。
 
 > Key 只保存在你手机的浏览器 localStorage 中，随数据导出备份，不会经过任何第三方服务器（浏览器直连火山方舟）。

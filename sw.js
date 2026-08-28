@@ -1,5 +1,5 @@
 /* WorkBuddy Service Worker：离线缓存 + 打开即刷新 */
-const CACHE = "workbuddy-v2";
+const CACHE = "workbuddy-v3";
 const ASSETS = [
   "./",
   "./index.html",

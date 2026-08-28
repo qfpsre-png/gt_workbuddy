@@ -891,12 +891,14 @@
   function loadSettings() {
     const s = Store.getSettings();
     $("#cfgApiKey").value = s.apiKey || "";
+    $("#cfgBaseUrl").value = s.baseUrl || "";
     $("#cfgModel").value = s.model || "doubao-seed-1-6-flash-250715";
     $("#cfgVisionModel").value = s.visionModel || "doubao-seed-1-6-250615";
   }
   $("#saveCfgBtn").onclick = async () => {
     Store.saveSettings({
       apiKey: $("#cfgApiKey").value.trim(),
+      baseUrl: $("#cfgBaseUrl").value.trim(),
       model: $("#cfgModel").value.trim() || "doubao-seed-1-6-flash-250715",
       visionModel: $("#cfgVisionModel").value.trim() || "doubao-seed-1-6-250615",
     });

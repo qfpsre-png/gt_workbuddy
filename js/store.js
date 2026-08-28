@@ -8,7 +8,7 @@ const Store = (() => {
   };
 
   const defaultData = () => ({
-    settings: { apiKey: "", model: "doubao-seed-1-6-flash-250715", visionModel: "doubao-seed-1-6-250615", theme: "light" },
+    settings: { apiKey: "", baseUrl: "", model: "doubao-seed-1-6-flash-250715", visionModel: "doubao-seed-1-6-250615", theme: "light" },
     checkins: {},            // { "2026-08-28": true }（保留，首页主打卡）
     habits: {                // 三个习惯打卡：早起 / 早睡 / 读书
       early: { icon: "🌅", name: "早起", target: "07:00", days: {} },
